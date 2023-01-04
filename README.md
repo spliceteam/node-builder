@@ -1,6 +1,6 @@
 # CentOS 7 Node.js builder
 
-Simple script to automate build and deployment of Node.js release of any supported version desired, except running on CentOS 7!
+Simple script to automate build and deployment of Node.js release of any supported version desired, except now it is running on CentOS 7!
 
 ## How to use
 
