@@ -14,7 +14,7 @@ fi
 echo Building version $NODE_VERSION
 wget https://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION.tar.gz
 tar xzf node-$NODE_VERSION.tar.gz
-cd node-$NODE_VERSION.tar.gz
+cd node-$NODE_VERSION
 
 # Configure and build Node.js
 mkdir -p /build/dist
