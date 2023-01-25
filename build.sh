@@ -8,4 +8,5 @@ fi
 
 mkdir -p build
 
-docker run -v build:/build -it splice-node-builder $1
+BASEDIR="$(cd $(dirname $0) && pwd)"
+docker run -v $BASEDIR/build:/build -it splice-node-builder $1
