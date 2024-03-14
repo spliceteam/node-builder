@@ -1,0 +1,22 @@
+name: Build Node.js
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: string
+        description: Node.js version to build
+        default: "20.11.1"
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: ./create_builder.sh
+    - name: Build Node.js
+      run: ./build.sh ${{ inputs.version }} 
