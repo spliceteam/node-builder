@@ -6,4 +6,4 @@ COPY resources docker
 
 RUN ./docker/create_env.sh
 
-ENTRYPOINT ["./docker/build_node.sh", "18.12.1"]
+CMD ["./docker/build_node.sh", "18.12.1"]
