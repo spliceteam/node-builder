@@ -9,16 +9,43 @@ on:
         default: "20.11.1"
 
 jobs:
-
-  build:
-
+  build-node:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
+    
     - name: Build the Docker image
       run: ./create_builder.sh
+    
     - name: Build Node.js
       run: |
           BASEDIR="$(cd $(dirname $0) && pwd)" \
           docker run -v $BASEDIR/build:/build splice-node-builder ${{ inputs.version }}
+    
+    - name: Create release
+      id: create-release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ inputs.version }}
+        release_name: v${{ inputs.version }}
+        draft: false
+        prerelease: false
+
+    - name: Upload artifacts
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create-release.outputs.upload_url }}
+        asset_path: ./build/releases/node-${{ inputs.version }}-linux-x64.tar.gz
+        asset_name: node-${{ inputs.version }}-linux-x64.tar.gz
+        asset_content_type: application/gzip
+
+    - name: Publish release
+      uses: eregon/publish-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        release_id: ${{ steps.create_release.outputs.id }}
