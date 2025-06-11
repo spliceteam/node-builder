@@ -11,7 +11,6 @@ yum install -y epel-release yum-utils
 yum install -y http://repo.ius.io/ius-release-el7.rpm
 yum install -y http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 yum update -y
-yum group install -y "Development Tools"
 yum install -y centos-release-scl wget
 sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/*.repo
 sed -i s/^#.*baseurl=http/baseurl=http/g /etc/yum.repos.d/*.repo

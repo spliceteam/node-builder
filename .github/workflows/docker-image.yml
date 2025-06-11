@@ -1,0 +1,29 @@
+name: Build Node.js
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: string
+        description: Node.js version to build
+        default: "20.11.1"
+
+jobs:
+  build-node:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Build the Docker image
+      run: ./create_builder.sh
+    
+    - name: Build Node.js
+      run: docker run -v ./build:/build splice-node-builder ${{ inputs.version }}
+    
+    - name: Create release
+      uses: softprops/action-gh-release@v2
+      with:
+        name: v${{ inputs.version }}
+        tag_name: v${{ inputs.version }}
+        make_latest: false
+        files: ./build/releases/node-v${{ inputs.version }}-linux-x64.tar.gz
